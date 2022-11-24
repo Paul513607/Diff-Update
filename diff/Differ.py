@@ -29,10 +29,10 @@ class Differ:
         return f'Differ({self.file1}, {self.file2})'
 
     def load(self):
-        with open(self.file1, 'r') as f:
-            self.file1_lines = [line.rstrip() for line in f.readlines()]
-        with open(self.file2, 'r') as f:
-            self.file2_lines = [line.rstrip() for line in f.readlines()]
+        with open(self.file1, 'rb') as f:
+            self.file1_lines = [line.rstrip().decode('utf-8') for line in f.readlines()]
+        with open(self.file2, 'rb') as f:
+            self.file2_lines = [line.rstrip().decode('utf-8') for line in f.readlines()]
 
     def fill_sequence_matrix(self):
         n, m = len(self.file1_lines), len(self.file2_lines)

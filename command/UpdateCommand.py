@@ -19,9 +19,9 @@ class UpdateCommand(Command):
             sys.exit(1)
 
     def get_diff_from_diff_file(self, diff_file, to_update_file_name, latest_file_name):
-        fd = open(diff_file, 'r')
+        fd = open(diff_file, 'rb')
 
-        diff_lines = [line.rstrip() for line in fd.readlines()]
+        diff_lines = [line.rstrip().decode('utf-8') for line in fd.readlines()]
         diff_starts = [(i, line) for i, line in enumerate(diff_lines) if line.startswith('diff')]
         diff_for_update, diff_for_update_idx = None, None
         for idx in range(0, len(diff_starts)):
@@ -50,23 +50,23 @@ class UpdateCommand(Command):
         latest_file_name = diff_name + '.latest'
         latest_file = os.path.join(root, latest_file_name + '1')
 
-        ff = open(to_update_file, 'r')
-        fl = open(latest_file, 'w')
+        ff = open(to_update_file, 'rb')
+        fl = open(latest_file, 'wb')
 
         diff_data = self.get_diff_from_diff_file(diff_file, to_update_file_name, latest_file_name)
         diff_data.pop()
-        to_update_file_lines = [line.rstrip() for line in ff.readlines()]
+        to_update_file_lines = [line.rstrip().decode('utf-8') for line in ff.readlines()]
 
         i, j = 1, 0
         while i < len(diff_data) and j < len(to_update_file_lines):
             if diff_data[i].startswith('+'):
-                fl.write(diff_data[i][1:] + '\n')
+                fl.write(str.encode(diff_data[i][1:] + '\n'))
                 i += 1
             elif diff_data[i].startswith('-'):
                 i += 1
                 j += 1
             else:
-                fl.write(to_update_file_lines[j] + '\n')
+                fl.write(str.encode(to_update_file_lines[j] + '\n'))
                 i += 1
                 j += 1
 

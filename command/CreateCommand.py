@@ -28,13 +28,13 @@ class CreateCommand(Command):
         version_files = self.argv[1:]
 
         full_diff_path = os.path.join(root, diff_file)
-        with open(full_diff_path, "w") as f:
+        with open(full_diff_path, "wb") as f:
             for i in range(0, len(version_files)):
-                f.write("diff " + version_files[i] + " " + latest_file + ":\n")
+                f.write(str.encode("diff " + version_files[i] + " " + latest_file + ":\n"))
                 differ = Differ(version_files[i], latest_file)
                 differ.fill_sequence_matrix()
                 differ.reconstruct_path()
                 differ.format_diff()
                 for line in differ.diff:
-                    f.write(line + '\n')
-                f.write('\n')
+                    f.write(str.encode(line + '\n'))
+                f.write(str.encode('\n'))
