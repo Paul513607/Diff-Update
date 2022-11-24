@@ -6,7 +6,9 @@ import difflib
 
 command = None
 
-
+"""
+This function initializes the data
+"""
 def init():
     global command
     if len(sys.argv) < 3:

@@ -1,6 +1,8 @@
 from abc import abstractmethod
 
-
+"""
+Command is an abstract class that defines the interface for all commands.
+"""
 class Command:
     name: str
     argv: list

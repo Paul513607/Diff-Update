@@ -1,3 +1,8 @@
+"""
+The Differ class is responsible for creating the diff between two files
+It applies either the Longest Common Subsequence algorithm with path reconstruction or the Myers algorithm to create
+the diff between the two files
+"""
 class Differ:
     file1: str
     file2: str
@@ -10,6 +15,9 @@ class Differ:
     operations: list
     diff: list
 
+    """
+    Differ constructor takes two file paths as arguments
+    """
     def __init__(self, file1: str, file2: str):
         self.file1 = file1
         self.file2 = file2
@@ -28,23 +36,34 @@ class Differ:
     def __str__(self):
         return f'Differ({self.file1}, {self.file2})'
 
+    """
+    Method that loads each file's lines into class attributes
+    """
     def load(self):
         with open(self.file1, 'rb') as f:
             self.file1_lines = [line.rstrip().decode('utf-8') for line in f.readlines()]
         with open(self.file2, 'rb') as f:
             self.file2_lines = [line.rstrip().decode('utf-8') for line in f.readlines()]
 
+    """
+    This method populates the sequence matrix used in the Longest Common Subsequence algorithm
+    """
     def fill_sequence_matrix(self):
         n, m = len(self.file1_lines), len(self.file2_lines)
         self.sequence_matrix = [[0] * (m + 1) for _ in range(n + 1)]
         for i in range(1, n + 1):
             for j in range(1, m + 1):
+                # If there is a match, we do a diagonal move
                 if self.file1_lines[i - 1] == self.file2_lines[j - 1]:
                     self.sequence_matrix[i][j] = self.sequence_matrix[i - 1][j - 1] + 1
                     self.flags.add((i, j))
+                # If there is no match, we do a horizontal or vertical move, depending on which is greater
                 else:
                     self.sequence_matrix[i][j] = max(self.sequence_matrix[i - 1][j], self.sequence_matrix[i][j - 1])
 
+    """
+    This method reconstructs the path from the sequence matrix
+    """
     def reconstruct_path(self):
         i, j = len(self.file1_lines), len(self.file2_lines)
         self.operations = []
@@ -52,14 +71,17 @@ class Differ:
         while True:
             if i <= 0 and j <= 0:
                 break
+            # If the current position is in the longest common path, then we have a match
             if (i, j) in self.flags:
                 i, j = i - 1, j - 1
                 path.append((i, j))
                 self.operations.append(('equal', self.file1_lines[i], i, j))
+            # If we've made a horizontal move, we've deleted a line
             elif self.sequence_matrix[i][j] == self.sequence_matrix[i - 1][j] and i > 0:
                 i, j = i - 1, j
                 path.append((i, j))
                 self.operations.append(('delete', self.file1_lines[i], i, j))
+            # If we've made a vertical move, we've inserted a line
             elif self.sequence_matrix[i][j] == self.sequence_matrix[i][j - 1] and j > 0:
                 i, j = i, j - 1
                 path.append((i, j))
@@ -68,6 +90,9 @@ class Differ:
         self.path = path
         self.operations.reverse()
 
+    """
+    This function formats the diff obtained from the 'reconstruct_path' method into a list of strings based on git's diff format
+    """
     def format_diff(self):
         for op, line, x, y in self.operations:
             if op == 'equal':
@@ -136,7 +161,10 @@ class Differ:
             i = j
         [print(x) for x in new_diff_queue]
 
-    # Myers Diff algorithm
+    """
+    This method applies the Myers diff algorithm to the two files, 
+    obtaining the least amount of operations needed to transform one file into the other
+    """
     def shortest_edit(self):
         n, m = len(self.file1_lines), len(self.file2_lines)
         maximum = n + m
@@ -160,6 +188,10 @@ class Differ:
                 if x >= n and y >= m:
                     return history
 
+    """
+    This method backtracks through the history of operations from the 'shortest_edit' method, 
+    in order to obtain the shortest path
+    """
     def backtrack(self):
         x, y = len(self.file1_lines), len(self.file2_lines)
         history = self.shortest_edit()
@@ -181,6 +213,10 @@ class Differ:
                 self.path.append(((x_prev, y_prev), (x, y)))
                 x, y = x_prev, y_prev
 
+    """
+    This method formats the diff obtained from the 'backtrack' method into a list of operations that can either be
+    'insert', 'delete' or 'equal'
+    """
     def get_diff(self):
         self.diff = []
         self.path.reverse()
@@ -193,6 +229,9 @@ class Differ:
                 self.diff.append((self.file1_lines[x_prev], x_prev, y_prev, 'equal'))
         return self.diff
 
+    """
+    This method squashes subsequent operations of the same type into a single operation
+    """
     def squash_diff(self):
         self.get_diff()
         result = []

@@ -3,11 +3,18 @@ import os
 from command.Command import Command
 from diff.Differ import Differ
 
-
+"""
+CreateCommand class
+For creating a diff file from diffs between the latest file and version files
+Child of the generic Command class
+"""
 class CreateCommand(Command):
     def __init__(self, name, argv):
         super().__init__(name, argv)
 
+    """
+    Overridden method for checking if the arguments are valid
+    """
     def check_valid(self):
         if len(self.argv) < 2:
             print('Usage: python diff-update.py create <main_file> [match_files]')
@@ -20,6 +27,10 @@ class CreateCommand(Command):
                 print('Version file not found: ' + self.argv[i])
                 sys.exit(1)
 
+    """
+    Overridden method for applying the command's logic
+    This method uses the Differ class tho create the diff for the given files and write it to a diff file
+    """
     def execute(self):
         print('CreateCommand.execute() for argv: ' + str(self.argv))
         latest_file = self.argv[0]
