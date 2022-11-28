@@ -25,12 +25,12 @@ def init():
 
 
 def run():
-    init()
     command.check_valid()
     command.execute()
 
 
 if __name__ == '__main__':
+    init()
     run()
     #differ = Differ("./data/a2.latest", "./data/a2.ver1")
     #diff = difflib.unified_diff(differ.file1_lines, differ.file2_lines)

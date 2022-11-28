@@ -1,4 +1,6 @@
 # diff-update
+Project realised for the Python Laboratory, 
+by Samson Ioan-Paul, group 3A6 (project type A, id 6). <br> <br>
 
 # Usage
 diff-update [options] <main_file> [other_files] <br> <br>
