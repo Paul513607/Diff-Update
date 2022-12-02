@@ -60,4 +60,15 @@ Make sure you have a python3 interpreter installed. Then, run the script as spec
 # Author
 * __Name__: Samson Ioan-Paul
 
+# References
+* [diff]
+  * (https://en.wikipedia.org/wiki/Diff)
+* [Myers diff algorithm] 
+  * (https://www.nathaniel.ai/myers-diff/)
+* [Longest Common Subsequence]
+  * (https://en.wikipedia.org/wiki/Longest_common_subsequence_problem)
+  * (https://www.youtube.com/watch?v=sSno9rV8Rhg)
+* [Python's difflib]
+  * (https://docs.python.org/3/library/difflib.html)
+
 
