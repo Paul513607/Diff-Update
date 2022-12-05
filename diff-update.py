@@ -1,8 +1,6 @@
 import sys
 from command.CreateCommand import CreateCommand
 from command.UpdateCommand import UpdateCommand
-from diff.Differ import Differ
-import difflib
 
 command = None
 
