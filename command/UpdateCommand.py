@@ -25,10 +25,11 @@ class UpdateCommand(Command):
 
     def get_diff_from_diff_file(self, diff_file, to_update_file_name, latest_file_name):
         """
-            This method is used to get the diff data for the current version file (if it is available)
-            :param diff_file: The path to the diff file
-            :param to_update_file_name: The name of the file that we want to update
-            :param latest_file_name: The name of the latest file
+        This method is used to get the diff data for the current version file (if it is available)
+        :param str diff_file: The path to the diff file
+        :param str to_update_file_name: The name of the file that we want to update
+        :param str latest_file_name: The name of the latest file
+        :return str: The diff between the latest file and the current file, from the diff file
         """
         fd = open(diff_file, 'rb')
 

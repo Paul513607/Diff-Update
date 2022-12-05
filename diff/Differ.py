@@ -17,9 +17,9 @@ class Differ:
 
     def __init__(self, file1: str, file2: str):
         """
-            Differ constructor takes two file paths as arguments
-            :param file1: The path of the first file for the diff
-            :param file2: The path of the second file for the diff
+        Differ constructor takes two file paths as arguments
+        :param file1: The path of the first file for the diff
+        :param file2: The path of the second file for the diff
         """
         self.file1 = file1
         self.file2 = file2

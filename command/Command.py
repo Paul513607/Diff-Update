@@ -9,8 +9,8 @@ class Command(ABC):
 
     def __init__(self, name: str, argv: list):
         """
-            :param name: The name of the latest file (create) or the file we want to update (update)
-            :param argv: The other files to diff (create) or the diff file (update)
+        :param name: The name of the latest file (create) or the file we want to update (update)
+        :param argv: The other files to diff (create) or the diff file (update)
         """
         self.name = name
         self.argv = argv
