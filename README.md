@@ -2,6 +2,22 @@
 Project realised for the Python Laboratory, 
 by Samson Ioan-Paul, group 3A6 (project type A, id 6). <br> <br>
 
+# The problem
+Create an application that produces an update through differences between two binary files.
+The application receives as input the current version of a binary file, as well as more
+its previous version and creates a list of commands (of the type insert / delete /
+change) through which one can reach from one of the previous files to the current file. List in
+cause is encoded in a binary file. With that binary starting from one of the files
+with older version, the newest file can be obtained. <br/> <br/>
+INPUT: difupdate.py create abc.latest abc.ver1 abc.ver2 abc.ver3 <br/>
+(in the case above, it is assumed that the last version is 4)
+The result is a file named "abc.diff" that contains the necessary information to do so
+go from version 1, 2 or 3 respectively to version 4 (latest) <br/> <br/>
+INPUT: difupdate.py update abc.ver2 abc.diff <br/>
+The result is that an abc.latest file obtained by applying operations of the type (insert,
+delete or change bytes) on the abc.ver2 file. These operations are described in abc.diff (as
+those necessary to move from version 2 to version 4 (latest). <br/> <br/>
+
 # Usage
 diff-update [options] <main_file> [other_files] <br> <br>
 
