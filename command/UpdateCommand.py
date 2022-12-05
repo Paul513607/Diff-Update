@@ -24,7 +24,12 @@ class UpdateCommand(Command):
             sys.exit(1)
 
     def get_diff_from_diff_file(self, diff_file, to_update_file_name, latest_file_name):
-        """This method is used to get the diff data for the current version file (if it is available)"""
+        """
+            This method is used to get the diff data for the current version file (if it is available)
+            :param diff_file: The path to the diff file
+            :param to_update_file_name: The name of the file that we want to update
+            :param latest_file_name: The name of the latest file
+        """
         fd = open(diff_file, 'rb')
 
         diff_lines = [line.rstrip().decode('utf-8') for line in fd.readlines()]
@@ -47,7 +52,7 @@ class UpdateCommand(Command):
 
     def execute(self):
         """Overridden method for applying the command's logic
-        This method uses the the data from the diff file for the current version file, and creates the latest file
+        This method uses the data from the diff file for the current version file, and creates the latest file
         using the version file and the updates from the diff file associated with it"""
         print('UpdateCommand.execute() for argv: ' + str(self.argv))
         to_update_file = self.argv[0]

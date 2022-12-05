@@ -16,7 +16,11 @@ class Differ:
     diff: list
 
     def __init__(self, file1: str, file2: str):
-        """Differ constructor takes two file paths as arguments"""
+        """
+            Differ constructor takes two file paths as arguments
+            :param file1: The path of the first file for the diff
+            :param file2: The path of the second file for the diff
+        """
         self.file1 = file1
         self.file2 = file2
         self.file1_lines = []
@@ -55,10 +59,8 @@ class Differ:
                 else:
                     self.sequence_matrix[i][j] = max(self.sequence_matrix[i - 1][j], self.sequence_matrix[i][j - 1])
 
-    """
-    This method reconstructs the path from the sequence matrix
-    """
     def reconstruct_path(self):
+        """This method reconstructs the path from the sequence matrix"""
         i, j = len(self.file1_lines), len(self.file2_lines)
         self.operations = []
         path = [(i, j)]
