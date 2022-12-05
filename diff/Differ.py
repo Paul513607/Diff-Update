@@ -15,10 +15,8 @@ class Differ:
     operations: list
     diff: list
 
-    """
-    Differ constructor takes two file paths as arguments
-    """
     def __init__(self, file1: str, file2: str):
+        """Differ constructor takes two file paths as arguments"""
         self.file1 = file1
         self.file2 = file2
         self.file1_lines = []
@@ -36,19 +34,15 @@ class Differ:
     def __str__(self):
         return f'Differ({self.file1}, {self.file2})'
 
-    """
-    Method that loads each file's lines into class attributes
-    """
     def load(self):
+        """Method that loads each file's lines into class attributes"""
         with open(self.file1, 'rb') as f:
             self.file1_lines = [line.rstrip().decode('utf-8') for line in f.readlines()]
         with open(self.file2, 'rb') as f:
             self.file2_lines = [line.rstrip().decode('utf-8') for line in f.readlines()]
 
-    """
-    This method populates the sequence matrix used in the Longest Common Subsequence algorithm
-    """
     def fill_sequence_matrix(self):
+        """This method populates the sequence matrix used in the Longest Common Subsequence algorithm"""
         n, m = len(self.file1_lines), len(self.file2_lines)
         self.sequence_matrix = [[0] * (m + 1) for _ in range(n + 1)]
         for i in range(1, n + 1):
@@ -90,10 +84,9 @@ class Differ:
         self.path = path
         self.operations.reverse()
 
-    """
-    This function formats the diff obtained from the 'reconstruct_path' method into a list of strings based on git's diff format
-    """
     def format_diff(self):
+        """This function formats the diff obtained from the 'reconstruct_path' method
+        into a list of strings based on git's diff format"""
         for op, line, x, y in self.operations:
             if op == 'equal':
                 self.diff.append(f' {line}')
@@ -161,11 +154,9 @@ class Differ:
             i = j
         [print(x) for x in new_diff_queue]
 
-    """
-    This method applies the Myers diff algorithm to the two files, 
-    obtaining the least amount of operations needed to transform one file into the other
-    """
     def shortest_edit(self):
+        """This method applies the Myers diff algorithm to the two files,
+        obtaining the least amount of operations needed to transform one file into the other"""
         n, m = len(self.file1_lines), len(self.file2_lines)
         maximum = n + m
 
@@ -188,11 +179,9 @@ class Differ:
                 if x >= n and y >= m:
                     return history
 
-    """
-    This method backtracks through the history of operations from the 'shortest_edit' method, 
-    in order to obtain the shortest path
-    """
     def backtrack(self):
+        """This method backtracks through the history of operations from the 'shortest_edit' method,
+        in order to obtain the shortest path"""
         x, y = len(self.file1_lines), len(self.file2_lines)
         history = self.shortest_edit()
         for d, v in reversed(list(enumerate(history))):
@@ -213,11 +202,9 @@ class Differ:
                 self.path.append(((x_prev, y_prev), (x, y)))
                 x, y = x_prev, y_prev
 
-    """
-    This method formats the diff obtained from the 'backtrack' method into a list of operations that can either be
-    'insert', 'delete' or 'equal'
-    """
     def get_diff(self):
+        """This method formats the diff obtained from the 'backtrack' method into a list of operations that can either be
+        'insert', 'delete' or 'equal'"""
         self.diff = []
         self.path.reverse()
         for (x_prev, y_prev), (x, y) in self.path:
@@ -229,10 +216,8 @@ class Differ:
                 self.diff.append((self.file1_lines[x_prev], x_prev, y_prev, 'equal'))
         return self.diff
 
-    """
-    This method squashes subsequent operations of the same type into a single operation
-    """
     def squash_diff(self):
+        """This method squashes subsequent operations of the same type into a single operation"""
         self.get_diff()
         result = []
         for i in range(len(self.diff)):

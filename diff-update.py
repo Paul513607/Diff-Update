@@ -4,10 +4,8 @@ from command.UpdateCommand import UpdateCommand
 
 command = None
 
-"""
-This function initializes the data
-"""
 def init():
+    """This function initializes the data"""
     global command
     if len(sys.argv) < 3:
         print('Usage: python diff-update.py <command> <main_file> [match_files]')

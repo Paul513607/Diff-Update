@@ -12,10 +12,8 @@ class CreateCommand(Command):
     def __init__(self, name, argv):
         super().__init__(name, argv)
 
-    """
-    Overridden method for checking if the arguments are valid
-    """
     def check_valid(self):
+        """Overridden method for checking if the arguments are valid"""
         if len(self.argv) < 2:
             print('Usage: python diff-update.py create <main_file> [match_files]')
             sys.exit(1)
@@ -27,11 +25,9 @@ class CreateCommand(Command):
                 print('Version file not found: ' + self.argv[i])
                 sys.exit(1)
 
-    """
-    Overridden method for applying the command's logic
-    This method uses the Differ class tho create the diff for the given files and write it to a diff file
-    """
     def execute(self):
+        """Overridden method for applying the command's logic
+        This method uses the Differ class tho create the diff for the given files and write it to a diff file"""
         print('CreateCommand.execute() for argv: ' + str(self.argv))
         latest_file = self.argv[0]
         root = os.path.abspath(os.path.dirname(latest_file))

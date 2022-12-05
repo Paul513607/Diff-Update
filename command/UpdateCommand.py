@@ -11,10 +11,8 @@ class UpdateCommand(Command):
     def __init__(self, name, argv):
         super().__init__(name, argv)
 
-    """
-    Overridden method for checking if the arguments are valid
-    """
     def check_valid(self):
+        """Overridden method for checking if the arguments are valid"""
         if len(self.argv) < 2:
             print('Usage: python diff-update.py update <to_update_file> <diff_file>')
             sys.exit(1)
@@ -25,10 +23,8 @@ class UpdateCommand(Command):
             print('Diff file not found: ' + self.argv[1])
             sys.exit(1)
 
-    """
-    This method is used to get the diff data for the current version file (if it is available)
-    """
     def get_diff_from_diff_file(self, diff_file, to_update_file_name, latest_file_name):
+        """This method is used to get the diff data for the current version file (if it is available)"""
         fd = open(diff_file, 'rb')
 
         diff_lines = [line.rstrip().decode('utf-8') for line in fd.readlines()]
@@ -49,12 +45,10 @@ class UpdateCommand(Command):
         else:
             return diff_lines[diff_for_update:]
 
-    """
-        Overridden method for applying the command's logic
-        This method uses the the data from the diff file for the current version file, and creates the latest file
-        using the version file and the updates from the diff file associated with it
-    """
     def execute(self):
+        """Overridden method for applying the command's logic
+        This method uses the the data from the diff file for the current version file, and creates the latest file
+        using the version file and the updates from the diff file associated with it"""
         print('UpdateCommand.execute() for argv: ' + str(self.argv))
         to_update_file = self.argv[0]
         to_update_file_name = os.path.basename(to_update_file)
