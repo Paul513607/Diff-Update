@@ -1,9 +1,9 @@
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 
 """
 Command is an abstract class that defines the interface for all commands.
 """
-class Command:
+class Command(ABC):
     name: str
     argv: list
 
